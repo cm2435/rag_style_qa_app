@@ -79,7 +79,6 @@ class QueryHandler:
             retrieved_chunks = [retrieved_chunks]
             
         for chunk in retrieved_chunks:
-            print("FOO", chunk, retrieved_chunks)
             #Remove irrelevent sections
             chunk['metadata'].pop('text', None)
             chunk['metadata'].pop('stringified_input', None)

@@ -17,7 +17,7 @@ from rag.model import QueryHandler
 @pytest.fixture
 def llm_answer_generator():
     """Fixture to initialize the QueryHandler with an API key."""
-    OPENAI_TOKEN ="<KEY_HERE>"
+    OPENAI_TOKEN="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"
     return QueryHandler(api_key=OPENAI_TOKEN)
 
 @pytest.fixture
@@ -50,7 +50,7 @@ def vector_index():
         book_string = f.read()
 
     chunks: List[Dict[str, Any]] = make_chunks(book_string)
-    COHERE_TOKEN="<TOKEN_HERE>"
+    COHERE_TOKEN="55wvH2zLoYTZc287sYEnu4MW0GqQLy5dTLUoB8uJ"
     vector_index = VectorIndex(
         cohere_api_key=COHERE_TOKEN,
     )

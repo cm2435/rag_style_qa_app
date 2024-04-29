@@ -33,6 +33,8 @@ def startup_event():
     global llm_handler
     chunks: List[Dict[str, Any]] = make_chunks(book_string)
 
+    #These keys are hardcoded due to a bug with DOTENV load in a async startup context,
+    #In a proper service I would get around this by using AWS secrets manager. This isn't common practice!
     vector_index = VectorIndex(
         cohere_api_key="55wvH2zLoYTZc287sYEnu4MW0GqQLy5dTLUoB8uJ"
     )
