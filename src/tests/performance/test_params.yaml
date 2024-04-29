@@ -1,0 +1,9 @@
+test_question_answering:
+  UseReRanking: True
+  TopKResponses: 5
+  ReturnStream: True
+
+test_retrieval:
+  minimum_mrr: 0.1
+  acts_to_search: [1,2,3,4]
+  scenes_to_search: [1,2,3]

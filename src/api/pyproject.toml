@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "poetry-demo"
+version = "0.1.0"
+description = ""
+authors = ["cm2435 <charlie.masters@xapien.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+openai = "^1.23.6"
+black = "^24.4.2"
+isort = "^5.13.2"
+v = "^1"
+pinecone-client = "^3.2.2"
+sentence-transformers = "^2.7.0"
+faiss-cpu = "^1.8.0"
+einops = "^0.7.0"
+cohere = "^5.3.3"
+uvicorn = "^0.29.0"
+fastapi = "^0.110.2"
+tiktoken = "^0.6.0"
+rich = "^13.7.1"
+python-dotenv = "^1.0.1"
+gunicorn = "^22.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
