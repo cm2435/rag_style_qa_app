@@ -1,12 +1,11 @@
+import os
 from pathlib import Path
 from typing import Any, Dict, List
-from dotenv import load_dotenv
-import os 
 
 import uvicorn
+from dotenv import load_dotenv
 from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
-
 from preprocessing.api_logging import logger
 from preprocessing.make_text import make_chunks
 from rag.embedding_handling import VectorIndex
@@ -33,8 +32,8 @@ def startup_event():
     global llm_handler
     chunks: List[Dict[str, Any]] = make_chunks(book_string)
 
-    #These keys are hardcoded due to a bug with DOTENV load in a async startup context,
-    #In a proper service I would get around this by using AWS secrets manager. This isn't common practice!
+    # These keys are hardcoded due to a bug with DOTENV load in a async startup context,
+    # In a proper service I would get around this by using AWS secrets manager. This isn't common practice!
     vector_index = VectorIndex(
         cohere_api_key="55wvH2zLoYTZc287sYEnu4MW0GqQLy5dTLUoB8uJ"
     )
@@ -57,10 +56,13 @@ async def transformation(schema: RagRequest):
     """
     try:
         logger.info(f"Inference on question: {schema}")
-        if schema.LLMGenerationMetaData.InferenceModel: 
-            if schema.LLMGenerationMetaData.InferenceModel not in llm_handler._MODEL_MAX_LENGTH.keys():
+        if schema.LLMGenerationMetaData.InferenceModel:
+            if (
+                schema.LLMGenerationMetaData.InferenceModel
+                not in llm_handler._MODEL_MAX_LENGTH.keys()
+            ):
                 raise ValueError("Unsupported model used as generator.")
-    
+
         index_results = vector_index.query_index(
             schema,
             top_k=schema.EmbeddingMetaData.TopKResponses,

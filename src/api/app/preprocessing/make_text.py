@@ -3,11 +3,11 @@ from typing import Any, Dict, List, Tuple
 import pandas as pd
 import regex
 import tqdm
+from preprocessing.api_logging import logger
 from preprocessing.ner import extract_people
 from preprocessing.parse_data import roman_to_int, split_book
 from transformers import pipeline
 
-from preprocessing.api_logging import logger
 
 def split_into_chapters(text: str) -> Dict[str, str | int]:
     # Split text into acts

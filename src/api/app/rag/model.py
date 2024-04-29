@@ -7,15 +7,18 @@ import openai
 import pydantic
 import tiktoken
 from openai import AsyncOpenAI
-from schemas.input_schemas import GenerationMetaData, RagRequest
 from preprocessing.api_logging import logger
+from schemas.input_schemas import GenerationMetaData, RagRequest
+
 
 class QueryHandler:
-    def __init__(self, api_key: str, system_prompt: str = None,):
+    def __init__(
+        self,
+        api_key: str,
+        system_prompt: str = None,
+    ):
         self._base_inference_model = "gpt-4"
-        self._client = openai.AsyncClient(
-            api_key=api_key
-        )
+        self._client = openai.AsyncClient(api_key=api_key)
         self.encoder = tiktoken.get_encoding("cl100k_base")
         self._MODEL_MAX_LENGTH = {"gpt-3.5-turbo-16k": 8192, "gpt-4": 4192}
         if system_prompt:
@@ -33,10 +36,12 @@ class QueryHandler:
         query: str,
         retrieved_results: List[Dict[str, Any]],
         generation_model: str = None,
-        max_attempts: int = 5
-        ):
+        max_attempts: int = 5,
+    ):
         # Determine the model to use
-        generation_model = generation_model if generation_model else self._base_inference_model
+        generation_model = (
+            generation_model if generation_model else self._base_inference_model
+        )
 
         # Prepare the input prompt
         system_prompt = self._system_prompt.format(
@@ -62,12 +67,16 @@ class QueryHandler:
             except Exception as e:
                 attempt += 1
                 if attempt >= max_attempts:
-                    logger.critical(f"Failed after {max_attempts} attempts. Last error: {str(e)}")
+                    logger.critical(
+                        f"Failed after {max_attempts} attempts. Last error: {str(e)}"
+                    )
                     break  # Exit loop after max attempts
 
                 # Calculate exponential backoff
-                sleep_time = min(30, (2 ** attempt))
-                logger.warning(f"Attempt {attempt}: An error occurred. Retrying in {sleep_time:.2f} seconds...")
+                sleep_time = min(30, (2**attempt))
+                logger.warning(
+                    f"Attempt {attempt}: An error occurred. Retrying in {sleep_time:.2f} seconds..."
+                )
                 await asyncio.sleep(sleep_time)
 
     def _format_retrieved_text_chunks(
@@ -77,11 +86,11 @@ class QueryHandler:
         abridged_chunks_list = []
         if isinstance(retrieved_chunks, dict):
             retrieved_chunks = [retrieved_chunks]
-            
+
         for chunk in retrieved_chunks:
-            #Remove irrelevent sections
-            chunk['metadata'].pop('text', None)
-            chunk['metadata'].pop('stringified_input', None)
+            # Remove irrelevent sections
+            chunk["metadata"].pop("text", None)
+            chunk["metadata"].pop("stringified_input", None)
             if (
                 len(self.encoder.encode(str(chunk))) + current_token_offset
                 < self._MODEL_MAX_LENGTH[self._base_inference_model]

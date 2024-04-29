@@ -19,8 +19,8 @@ import signal
 import subprocess
 import sys
 from pathlib import Path
-import yaml
 
+import yaml
 
 SERVER_TIMEOUT = os.environ.get("MODEL_SERVER_TIMEOUT", 60)
 SERVER_WORKER_COUNT = 1
