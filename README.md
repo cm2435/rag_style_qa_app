@@ -151,7 +151,7 @@ The deployment is done via a bash script to build the image, and then tag and pu
 The CI/CD is done using github actions, for which there is a basic workflow script to lint and sort code that is checked into the dev branch. 
 
 
-### **Time pressure- What's next** 
+## **Time pressure- What's next** 
 In 5 hours we built a basic from an ML perspective, but well evaluated and production ready API to do RAG on a book. Given more time, here is my order of priorities for follow up tasks to complete
 
 1. Add unit tests to the pipeline of the API to ensure proper coverage and behaviour 
