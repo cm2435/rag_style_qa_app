@@ -48,14 +48,33 @@ poetry shell
 ```bash
 ./src/api/app/api.py
 ```
-And set the global variables on startup for the COHERE and OPENAI api keys, on lines 37 and 40. 
-After this simply navigate to the API's parent directory 
+then navigate to the API's parent directory 
 ```bash
 cd src/api/app 
 ```
 and run 
 ```bash
 python api.py
+```
+
+Then navigate to 
+```bash
+http://127.0.0.1:8000/docs#/default/transformation_chat_post
+```
+And make a request! NOTE: By default the metadata fields are set to 0, remove these if you want to search all text using an example like this 
+
+```python
+{
+  "Query": "Who is Romeo!",
+  "EmbeddingMetaData": {
+    "TopKResponses": 5,
+    "UseReRanking": true
+  },
+  "LLMGenerationMetaData": {
+    "InferenceModel": "gpt-3.5-turbo-16k",
+    "ReturnStream": true
+  }
+}
 ```
 
 ### Running tests
@@ -72,7 +91,6 @@ Quality tests for the generative pipeline are done with the deepeval framework a
 ```bash
 cd src/tests/performance 
 ```
-and set the key variables for the openai and cohere API tokens in conftest.py on lines 20, 53.
 2. Run
 ```python
  export OPENAI_API_KEY="<KEY_HERE">
@@ -131,3 +149,12 @@ The API is served in production using docker as a containeriser running a set of
 The deployment is done via a bash script to build the image, and then tag and push it to AWS ECR to then be deployed to EC2, fargate or sagemaker.
 
 The CI/CD is done using github actions, for which there is a basic workflow script to lint and sort code that is checked into the dev branch. 
+
+
+### **Time pressure- What's next** 
+In 5 hours we built a basic from an ML perspective, but well evaluated and production ready API to do RAG on a book. Given more time, here is my order of priorities for follow up tasks to complete
+
+1. Add unit tests to the pipeline of the API to ensure proper coverage and behaviour 
+2. Support Chat context by using a memory buffer from llama index or scale to an external memory cache like redis for production.
+3. Impliment a paper like 'HYDE' https://arxiv.org/abs/2212.10496 to improve information retrieval by turning the query into an example passage to embed 
+4. Write some test cases for the system prompt and tune it using DSPY for better performance. 
