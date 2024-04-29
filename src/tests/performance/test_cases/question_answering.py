@@ -1,6 +1,7 @@
 sample_context = [
     {   
         'question': "Who is this play about?",
+        'vector_input' : {
          'metadata': {
             'act': 1,
             'scene': 1,
@@ -21,5 +22,6 @@ sample_context = [
         },
         'distance': 0.4228102,
         'relevance_score': 0.19132768
+    }
     }
 ]

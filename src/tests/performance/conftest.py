@@ -46,7 +46,7 @@ def retrieval_test_args():
 
 @pytest.fixture
 def vector_index():
-    with open(str(Path(__file__).parent / "book.txt"), "r") as f:
+    with open(str(Path(__file__).parent / "test_cases/book.txt"), "r") as f:
         book_string = f.read()
 
     chunks: List[Dict[str, Any]] = make_chunks(book_string)
